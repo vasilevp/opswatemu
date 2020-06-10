@@ -89,6 +89,7 @@ func main() {
 		data, err := json.Marshal(rd)
 		if err != nil {
 			logrus.WithError(err).Error("Cannot marshal response")
+			return
 		}
 
 		reply := fmt.Sprintf("%s(%s)", cb, data)
@@ -98,6 +99,7 @@ func main() {
 
 		if _, err := w.Write([]byte(reply)); err != nil {
 			logrus.WithError(err).Error("Cannot write response")
+			return
 		}
 
 		logrus.WithField("response", reply).Info("Wrote response")
@@ -106,6 +108,7 @@ func main() {
 	r.Get("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if _, err := w.Write([]byte("It works!\nMake sure to use the same browser to access 'protected' resources")); err != nil {
 			logrus.WithError(err).Error("Cannot write response")
+			return
 		}
 	}))
 
